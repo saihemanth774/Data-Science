@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sai Hemanth | Digital Library Dashboard</title>
+<link rel="stylesheet" href="script.css">
+<script src="theme.js"></script>
+</head>
+<body class="dashboard-page">
+
+<!-- ================= SIDEBAR ================= -->
+<aside class="sidebar" id="sidebar">
+    <div class="side-brand">
+        <div class="logo-box">MBU<img class="logo-img" alt="MBU Logo"></div>
+        <div>
+            <strong>Sai Hemanth</strong>
+            <small>DIGITAL LIBRARY</small>
+        </div>
+    </div>
+
+    <button class="menu-btn" onclick="toggleSidebar()" aria-label="Open menu">☰</button>
+    <div class="sidebar-student">
+        <div class="avatar avatar-small">SH<img class="photo-img" alt=""></div>
+        <div>
+            <strong>Sai Hemanth</strong>
+            <small>Data Science · 3rd Year</small>
+        </div>
+    </div>
+
+    <nav class="nav-list">
+        <button class="nav-item active" data-section="home" onclick="showSection('home', this)"><i>🏠</i> Home</button>
+        <button class="nav-item" data-section="modules" onclick="showSection('modules', this)"><i>📚</i> Modules</button>
+        <button class="nav-item" data-section="labs" onclick="showSection('labs', this)"><i>🧪</i> Lab Assignments</button>
+        <button class="nav-item" data-section="tools" onclick="showSection('tools', this)"><i>🛠️</i> Tools</button>
+        <button class="nav-item" data-section="ai" onclick="showSection('ai', this)"><i>🤖</i> AI Model</button>
+        <button class="nav-item" data-section="profile" onclick="showSection('profile', this)"><i>🪪</i> My Profile</button>
+    </nav>
+
+    <div class="sidebar-bottom">
+        <button class="nav-item logout-link" onclick="logout()"><i>⎋</i> Logout</button>
+    </div>
+</aside>
+
+<!-- ================= MAIN ================= -->
+<div class="main-content">
+    <header class="topbar">
+        <div class="topbar-title">
+            <h2>Mohan Babu University</h2>
+            <p>Data Science Department · 2026–2027</p>
+        </div>
+        <button class="top-profile" onclick="showSection('profile', document.querySelector('[data-section=profile]'))">
+            <div class="avatar avatar-tiny" style="overflow:hidden;position:relative">SH<img class="photo-img" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover"></div>
+            <span><strong>Sai Hemanth</strong><small>24102A030164</small></span>
+        </button>
+    </header>
+
+    <main class="content-area">
+
+        <!-- ============ HOME ============ -->
+        <section class="page-section active-section" id="home">
+            <div class="hero-section">
+                <div class="hero-text">
+                    <span class="welcome-tag">WELCOME BACK, SAI HEMANTH</span>
+                    <h1>Explore the world of <span>Data Science</span></h1>
+                    <p>Read your study modules, practice in the coding lab, and ask the AI assistant when you get stuck.</p>
+                    <button class="btn btn-primary" onclick="showSection('modules', document.querySelector('[data-section=modules]'))">Open Modules</button>
+                </div>
+                <div class="hero-art">
+                    <div class="hero-orbit"></div><div class="hero-orbit orbit-two"></div>
+                    <div class="hero-photo">SH<img class="photo-img" alt="Sai Hemanth"></div>
+                    <span class="float-chip chip-one">Python</span>
+                    <span class="float-chip chip-two">ML</span>
+                </div>
+            </div>
+
+            <div class="section-title"><div><h2>At a glance</h2></div></div>
+            <div class="stats-grid three">
+                <div class="stat-card"><div class="stat-icon">📚</div><div><strong>5</strong><span>Modules</span></div></div>
+                <div class="stat-card"><div class="stat-icon">🧪</div><div><strong>10</strong><span>Lab projects</span></div></div>
+                <div class="stat-card"><div class="stat-icon">🛠️</div><div><strong>12</strong><span>Tools and libraries</span></div></div>
+            </div>
+        </section>
+
+        <!-- ============ MODULES ============ -->
+        <section class="page-section" id="modules">
+            <div class="page-heading">
+                <h1>My Study Modules</h1>
+                <p>Select a module to read its PDF.</p>
+            </div>
+            <div class="module-grid" id="moduleGrid"></div>
+        </section>
+
+        <!-- ============ LAB ASSIGNMENTS ============ -->
+        <section class="page-section" id="labs">
+            <div class="page-heading">
+                <h1>Lab Assignments</h1>
+                <p>Each lab opens the coding editor with starter code. It runs in your browser.</p>
+            </div>
+            <div class="resource-grid" id="labGrid"></div>
+        </section>
+
+        <!-- ============ TOOLS ============ -->
+        <section class="page-section" id="tools">
+            <div class="page-heading">
+                <h1>Tools and Libraries</h1>
+                <p>The 12 tools you use across Data Science. Select one to open its official site.</p>
+            </div>
+            <div class="resource-grid" id="toolGrid"></div>
+        </section>
+
+        <!-- ============ AI MODEL ============ -->
+        <section class="page-section" id="ai">
+            <div class="ai-wrap">
+                <div class="assistant-card">
+                    <div class="assistant-icon">🤖</div>
+                    <h2>AI Study Assistant</h2>
+                    <p class="muted">Type a question or choose a topic. Then pick an AI tool and it opens with your question ready to answer.</p>
+
+                    <div class="ai-chips" id="aiChips"></div>
+
+                    <textarea id="aiQuestion" placeholder="Example: Explain the difference between a list and a NumPy array"></textarea>
+
+                    <div class="ai-actions">
+                        <button class="btn btn-primary" onclick="openAI('claude')">Ask Claude</button>
+                        <button class="btn btn-dark" onclick="openAI('chatgpt')">Ask ChatGPT</button>
+                        <button class="btn btn-dark" onclick="openAI('perplexity')">Ask Perplexity</button>
+                    </div>
+                    <p class="small-note">The AI tool opens in a new tab. You may need to sign in there.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============ PROFILE / ID CARD ============ -->
+        <section class="page-section" id="profile">
+            <div class="page-heading">
+                <h1>My Profile</h1>
+                <p>Your student ID card.</p>
+            </div>
+
+            <div class="profile-wrap">
+                <div class="id-card" id="idCard">
+                    <div class="id-top">
+                        <div class="logo-box">MBU<img class="logo-img" alt="MBU Logo"></div>
+                        <div>
+                            <strong>MOHAN BABU UNIVERSITY</strong>
+                            <small>Student Identity Card · 2026–2027</small>
+                        </div>
+                    </div>
+                    <div class="id-photo-area">
+                        <div class="id-photo">SH<img class="photo-img" alt="Sai Hemanth"></div>
+                    </div>
+                    <div class="id-name">
+                        <h2>Mangala Sai Hemanth</h2>
+                        <p>B.Tech · Data Science</p>
+                    </div>
+                    <div class="id-rows">
+                        <div><span>Roll No</span><strong>24102A030164</strong></div>
+                        <div><span>College</span><strong>Mohan Babu University</strong></div>
+                        <div><span>Department</span><strong>Data Science</strong></div>
+                        <div><span>Year</span><strong>3rd Year</strong></div>
+                        <div><span>Semester</span><strong>5</strong></div>
+                        <div><span>Section</span><strong>3</strong></div>
+                        <div><span>Faculty</span><strong>MR. S Bosu Babu</strong></div>
+                        <div><span>Academic Year</span><strong>2026–2027</strong></div>
+                    </div>
+                    <div class="id-foot">
+                        <span>GitHub</span>
+                        <a id="githubLink" href="#" target="_blank" rel="noopener"></a>
+                    </div>
+                </div>
+
+                <div class="details-card">
+                    <h2>Student details</h2>
+                    <div class="details-grid">
+                        <div><span>Full name</span><strong>Mangala Sai Hemanth</strong></div>
+                        <div><span>Roll number</span><strong>24102A030164</strong></div>
+                        <div><span>College</span><strong>Mohan Babu University</strong></div>
+                        <div><span>Department</span><strong>Data Science</strong></div>
+                        <div><span>Year</span><strong>3rd Year</strong></div>
+                        <div><span>Semester</span><strong>5</strong></div>
+                        <div><span>Section</span><strong>3</strong></div>
+                        <div><span>Faculty name</span><strong>MR. S Bosu Babu</strong></div>
+                        <div><span>Academic year</span><strong>2026–2027</strong></div>
+                    </div>
+                    <div class="profile-actions">
+                        <a class="btn btn-primary" id="githubBtn" href="#" target="_blank" rel="noopener">Open GitHub</a>
+                        <button class="btn btn-light" onclick="window.print()">Print ID card</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <footer class="footer">Mohan Babu University · Data Science Department · Sai Hemanth Digital Library</footer>
+    </main>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>

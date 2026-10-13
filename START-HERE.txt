@@ -1,0 +1,4 @@
+1. Right-click this zip -> Extract All (do NOT open files from inside the zip).
+2. Open the extracted "site" folder.
+3. Double-click index.html, then click Enter Dashboard.
+Everything (logo, photo, 5 PDFs) is already inside the images and pdfs folders.

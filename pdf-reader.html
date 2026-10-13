@@ -1,0 +1,13 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Study Material Reader</title>
+<link rel="stylesheet" href="script.css">
+<script src="theme.js"></script></head><body><header class="sub-head"><h2>Sai Hemanth <em>Library</em></h2><a class="btn btn-primary" href="dashboard.html#modules">← Modules</a></header><main class="reader-main"><h2 id="bookTitle">Study Material</h2><p>Read your PDF using the page controls.</p><div id="status">Loading PDF...</div><div id="book"></div><div class="controls"><button class="btn btn-light" id="prev">← Previous</button><span id="pageInfo">Page - / -</span><button class="btn btn-light" id="next">Next →</button></div></main>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script><script src="https://cdn.jsdelivr.net/npm/page-flip@2.0.7/dist/js/page-flip.browser.min.js"></script><script>
+pdfjsLib.GlobalWorkerOptions.workerSrc="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
+const params=new URLSearchParams(location.search),file=params.get("file"),title=params.get("title")||"Study Material";document.getElementById("bookTitle").textContent=title;let book=null;
+async function loadBook(){if(!file){document.getElementById("status").textContent="Choose a module from the dashboard first.";return}
+try{const pdf=await pdfjsLib.getDocument(file).promise,holder=document.getElementById("book"),pages=[];for(let n=1;n<=pdf.numPages;n++){const p=await pdf.getPage(n),v=p.getViewport({scale:1.1}),canvas=document.createElement("canvas");canvas.width=v.width;canvas.height=v.height;await p.render({canvasContext:canvas.getContext("2d"),viewport:v}).promise;const el=document.createElement("div");el.className="page";el.appendChild(canvas);holder.appendChild(el);pages.push(el)}
+book=new St.PageFlip(holder,{width:420,height:590,size:"stretch",minWidth:280,maxWidth:840,minHeight:380,maxHeight:1180,showCover:true,maxShadowOpacity:.4,usePortrait:true});book.loadFromHTML(pages);document.getElementById("status").textContent="PDF loaded successfully.";updatePage();book.on("flip",updatePage)
+}catch(e){document.getElementById("status").textContent="Could not load the PDF. Check that the file exists inside the pdfs folder.";console.error(e)}}
+function updatePage(){if(book)document.getElementById("pageInfo").textContent="Page "+(book.getCurrentPageIndex()+1)+" / "+book.getPageCount()}
+document.getElementById("prev").onclick=()=>book&&book.flipPrev();document.getElementById("next").onclick=()=>book&&book.flipNext();loadBook();
+</script></body></html>
